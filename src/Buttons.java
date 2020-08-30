@@ -107,6 +107,7 @@ public class Buttons extends JFrame implements ActionListener
 								}
 							});
 						timer.start();
+						timer.setRepeats(false);
 					}
 				}
 			}
@@ -115,6 +116,8 @@ public class Buttons extends JFrame implements ActionListener
 
 	private boolean Match(JButton a, JButton b)
 	{
+		cardPic = 0; 
+		
 		return hmap.get(a).equals(hmap.get(b));
 	}
 
