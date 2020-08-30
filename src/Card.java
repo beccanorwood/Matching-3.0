@@ -4,12 +4,14 @@ public class Card
 {
 	private BufferedImage pic; 
 	private String id; 
+	private boolean flipped; 
 
 	//Constructor with BI parameter & String id
 	public Card(BufferedImage pic, String id) 
 	{
 		this.pic = pic;
 		this.id = id; 
+		this.flipped = false; 
 	}
 	
 	public void setId(String id)
@@ -30,6 +32,31 @@ public class Card
 	public BufferedImage getPic()
 	{
 		return pic; 
+	}
+	
+	public void setFlipped()
+	{
+		this.flipped = true; 
+	}
+	
+	public boolean getFlipped()
+	{
+		return flipped; 
+	}
+	
+	public void Reset()
+	{
+		this.flipped = false; 
+	}
+	
+	public boolean equals(Card other)
+	{
+		if(this.getID().equals(other.getID())) {
+			return true;
+		}
+		else {
+			return false; 
+		}
 	}
 	
 }

@@ -1,21 +1,24 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class Buttons extends JFrame implements ActionListener
 {
-	private static int WIDTH = 800; 
-	private static int HEIGHT = 800; 
-	
-	private int cardPic; 
+	private final int WIDTH = 800; 
+	private final int HEIGHT = 800; 
+
+	private int cardPic = 0; 
 	private JButton[] grid;
 	private HashMap<JButton, Card> hmap;
+	private ArrayList <JButton> btns = new ArrayList<JButton>();
 	
 	public Buttons(int row, int col)
 	{
@@ -24,6 +27,7 @@ public class Buttons extends JFrame implements ActionListener
 		this.setTitle("Memory Game: Wedding Edition ");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(row, col));
+		this.setVisible(true);
 	}
 	
 	protected void ButtonDisplay(int row, int col, ArrayList<Card> d)
@@ -35,7 +39,7 @@ public class Buttons extends JFrame implements ActionListener
 		for(int b = 0; b < numofButtons; b++){
 			grid[b] = new JButton(); 
 			grid[b].addActionListener(this); 
-			this.add(grid[b]); 
+			add(grid[b]); 
 		}
 		
 		Map(d); 
@@ -49,44 +53,69 @@ public class Buttons extends JFrame implements ActionListener
 			hmap.put(grid[c], deck.get(c)); 
 		}
 		
-		this.setVisible(true);
 	}
 	
-	public void actionPerformed(ActionEvent e) 
+	public void actionPerformed(ActionEvent e)
 	{
 		try {
-			CardSelection(e); 
+			CardSelection(e);
 		}
-		catch(IndexOutOfBoundsException e2)
-		{
-			e2.printStackTrace();
+		catch(IndexOutOfBoundsException e1) {
+			e1.printStackTrace();
 		}
 	}
-	
-	private void CardSelection(ActionEvent e)
-	{
-		JButton src = (JButton) e.getSource(); 
-		//Find JButton from key value(Card)
-		
-		for(int i = 0; i < grid.length; i++){
 
-			if(src == grid[i])
-			{
-				JButton b = grid[i]; 
-				BufferedImage pic = hmap.get(b).getPic(); 
-				String id = hmap.get(b).getID(); 
-				
-				System.out.println("JButton: " + i + " " + id); 
-				 
-				System.out.println("Card: " + i + " Selected!"); 
-				grid[i].setIcon(new ImageIcon(pic));
-				
-				cardPic++; 
-				
-			}
-		}
-				
-	}
 	
+	public void CardSelection(ActionEvent e)
+	{		
+		JButton src = (JButton) e.getSource(); 
+
+		for(int i = 0; i < grid.length; i++){
+				
+				if(src == grid[i]){
+					
+					BufferedImage pic = hmap.get(src).getPic(); 
+					src.setIcon(new ImageIcon(pic));
+					btns.add(src); 
+					cardPic++;
+					
+					System.out.println("Size: " + btns.size()); 
+					
+					if(cardPic == 2) {
+						int delay = 1000; 
+						Timer timer = new Timer(delay, evt-> {
+							
+							System.out.println("Buttons size: " + btns.size());
+							JButton last = btns.get(btns.size()-1); 
+							JButton second_last = btns.get(btns.size()-2); 
+							
+							boolean match = Match(last, second_last); 
+							System.out.println("Match: " + match); 
+							
+								if(match == true) {
+									second_last.setBackground(Color.BLACK);
+									last.setBackground(Color.BLACK);
+									second_last.setIcon(null);
+									last.setIcon(null);
+								}
+								else
+								{
+									second_last.setIcon(null);
+									hmap.get(second_last).Reset();
+									last.setIcon(null);
+									hmap.get(last).Reset();
+								}
+							});
+						timer.start();
+					}
+				}
+			}
+		
+	} 
+
+	private boolean Match(JButton a, JButton b)
+	{
+		return hmap.get(a).equals(hmap.get(b));
+	}
 
 }

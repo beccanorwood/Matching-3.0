@@ -8,10 +8,15 @@ public class Deck
 	
 	public Deck(BufferedImage[] pics, String[] names)
 	{
-		for(int i = 0; i < pics.length; i++)
+		for(int i = 0; i < 2; i ++)
 		{
-			deck.add(new Card(pics[i], names[i])); 
+			for(int j = 0; j < pics.length; j++)
+			{
+					deck.add(new Card(pics[j], names[j])); 
+			}
 		}
+		
+		//Randomize(); 
 	}
 	
 	public ArrayList<Card> Return()

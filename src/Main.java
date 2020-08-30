@@ -8,7 +8,6 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		
 		File path = new File("WeddingPics");
 		File [] files = path.listFiles();
 		
@@ -54,7 +53,7 @@ public class Main
 		
 		int col = multiples.get(middle); 
 		int row = num_of_cards/col; 
-		
+
 		ArrayList<Card> d1 = d.Return();
 		
 		Buttons b = new Buttons(row, col); 
