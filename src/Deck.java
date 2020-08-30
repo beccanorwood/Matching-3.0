@@ -16,7 +16,7 @@ public class Deck
 			}
 		}
 		
-		//Randomize(); 
+		Randomize(); 
 	}
 	
 	public ArrayList<Card> Return()

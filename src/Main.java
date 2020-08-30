@@ -8,7 +8,7 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		File path = new File("WeddingPics");
+		File path = new File("AnimalPics");
 		File [] files = path.listFiles();
 		
 		int size = files.length; 
